@@ -22,10 +22,3 @@ type CreateUserRequest struct {
 	Email string `json:"email" binding:"required,email"`
 	Age   int    `json:"age" binding:"required,min=1,max=150"`
 }
-
-// UpdateUserRequest represents the request payload for updating a user
-type UpdateUserRequest struct {
-	Name  *string `json:"name"`
-	Email *string `json:"email" binding:"omitempty,email"`
-	Age   *int    `json:"age" binding:"omitempty,min=1,max=150"`
-}
