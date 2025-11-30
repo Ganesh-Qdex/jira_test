@@ -2,7 +2,6 @@ package services
 
 import (
 	"context"
-	"errors"
 	"jira_test/models"
 	"jira_test/repositories"
 )
@@ -41,15 +40,6 @@ func (s *UserService) GetUserByID(ctx context.Context, id string) (*models.User,
 // GetAllUsers retrieves all users
 func (s *UserService) GetAllUsers(ctx context.Context) ([]models.User, error) {
 	return s.repo.GetAll(ctx)
-}
-
-// UpdateUser updates an existing user
-func (s *UserService) UpdateUser(ctx context.Context, id string, req *models.UpdateUserRequest) error {
-	if req.Name == nil && req.Email == nil && req.Age == nil {
-		return errors.New("at least one field must be provided for update")
-	}
-
-	return s.repo.Update(ctx, id, req)
 }
 
 // DeleteUser deletes a user by ID

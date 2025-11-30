@@ -71,41 +71,6 @@ func (r *UserRepository) GetAll(ctx context.Context) ([]models.User, error) {
 	return users, nil
 }
 
-// Update updates an existing user
-func (r *UserRepository) Update(ctx context.Context, id string, updateData *models.UpdateUserRequest) error {
-	objectID, err := primitive.ObjectIDFromHex(id)
-	if err != nil {
-		return errors.New("invalid user ID")
-	}
-
-	update := bson.M{
-		"$set": bson.M{
-			"updated_at": time.Now(),
-		},
-	}
-
-	if updateData.Name != nil {
-		update["$set"].(bson.M)["name"] = *updateData.Name
-	}
-	if updateData.Email != nil {
-		update["$set"].(bson.M)["email"] = *updateData.Email
-	}
-	if updateData.Age != nil {
-		update["$set"].(bson.M)["age"] = *updateData.Age
-	}
-
-	result, err := r.collection.UpdateOne(ctx, bson.M{"_id": objectID}, update)
-	if err != nil {
-		return err
-	}
-
-	if result.MatchedCount == 0 {
-		return errors.New("user not found")
-	}
-
-	return nil
-}
-
 // Delete removes a user from the database
 func (r *UserRepository) Delete(ctx context.Context, id string) error {
 	objectID, err := primitive.ObjectIDFromHex(id)
