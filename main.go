@@ -48,16 +48,6 @@ func main() {
 	// API routes
 	api := router.PathPrefix("/api/v1").Subrouter()
 	api.HandleFunc("/users", userHandler.CreateUser).Methods("POST")
-	api.HandleFunc("/users", userHandler.GetAllUsers).Methods("GET")
-	api.HandleFunc("/users/{id}", userHandler.GetUser).Methods("GET")
-	api.HandleFunc("/users/{id}", userHandler.UpdateUser).Methods("PUT")
-	api.HandleFunc("/users/{id}", userHandler.DeleteUser).Methods("DELETE")
-
-	// Health check endpoint
-	router.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
-	}).Methods("GET")
 
 	// Start server
 	port := os.Getenv("PORT")

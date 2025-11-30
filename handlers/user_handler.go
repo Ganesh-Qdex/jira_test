@@ -5,8 +5,6 @@ import (
 	"net/http"
 	"jira_test/models"
 	"jira_test/services"
-
-	"github.com/gorilla/mux"
 )
 
 type UserHandler struct {
@@ -40,77 +38,6 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	respondWithJSON(w, http.StatusCreated, user)
-}
-
-// GetUser handles GET /users/{id}
-func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	user, err := h.service.GetUserByID(r.Context(), id)
-	if err != nil {
-		if err.Error() == "user not found" {
-			respondWithError(w, http.StatusNotFound, err.Error())
-		} else {
-			respondWithError(w, http.StatusBadRequest, err.Error())
-		}
-		return
-	}
-
-	respondWithJSON(w, http.StatusOK, user)
-}
-
-// GetAllUsers handles GET /users
-func (h *UserHandler) GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	users, err := h.service.GetAllUsers(r.Context())
-	if err != nil {
-		respondWithError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	respondWithJSON(w, http.StatusOK, users)
-}
-
-// UpdateUser handles PUT /users/{id}
-func (h *UserHandler) UpdateUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	var req models.UpdateUserRequest
-	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		respondWithError(w, http.StatusBadRequest, "Invalid request payload")
-		return
-	}
-
-	err := h.service.UpdateUser(r.Context(), id, &req)
-	if err != nil {
-		if err.Error() == "user not found" {
-			respondWithError(w, http.StatusNotFound, err.Error())
-		} else {
-			respondWithError(w, http.StatusBadRequest, err.Error())
-		}
-		return
-	}
-
-	respondWithJSON(w, http.StatusOK, map[string]string{"message": "User updated successfully"})
-}
-
-// DeleteUser handles DELETE /users/{id}
-func (h *UserHandler) DeleteUser(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
-
-	err := h.service.DeleteUser(r.Context(), id)
-	if err != nil {
-		if err.Error() == "user not found" {
-			respondWithError(w, http.StatusNotFound, err.Error())
-		} else {
-			respondWithError(w, http.StatusBadRequest, err.Error())
-		}
-		return
-	}
-
-	respondWithJSON(w, http.StatusOK, map[string]string{"message": "User deleted successfully"})
 }
 
 // Helper functions

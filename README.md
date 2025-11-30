@@ -1,14 +1,10 @@
-# User CRUD API with MongoDB
+# User API with MongoDB
 
-A RESTful API built with Go and MongoDB for managing users. This application provides full CRUD (Create, Read, Update, Delete) operations for user management.
+A RESTful API built with Go and MongoDB for managing users. This application provides user creation functionality.
 
 ## Features
 
 - Create new users
-- Get user by ID
-- Get all users
-- Update user information
-- Delete users
 - MongoDB integration
 - RESTful API endpoints
 
@@ -67,35 +63,7 @@ A RESTful API built with Go and MongoDB for managing users. This application pro
     "age": 30
   }
   ```
-- **Response:** Created user object with ID
-
-### Get All Users
-- **GET** `/api/v1/users`
-- **Response:** Array of all users
-
-### Get User by ID
-- **GET** `/api/v1/users/{id}`
-- **Response:** User object
-
-### Update User
-- **PUT** `/api/v1/users/{id}`
-- **Request Body:** (all fields optional)
-  ```json
-  {
-    "name": "Jane Doe",
-    "email": "jane@example.com",
-    "age": 25
-  }
-  ```
-- **Response:** Success message
-
-### Delete User
-- **DELETE** `/api/v1/users/{id}`
-- **Response:** Success message
-
-### Health Check
-- **GET** `/health`
-- **Response:** `OK`
+- **Response:** Created user object with ID (201 Created)
 
 ## Example Usage
 
@@ -104,28 +72,6 @@ A RESTful API built with Go and MongoDB for managing users. This application pro
 curl -X POST http://localhost:8080/api/v1/users \
   -H "Content-Type: application/json" \
   -d '{"name":"John Doe","email":"john@example.com","age":30}'
-```
-
-### Get all users:
-```bash
-curl http://localhost:8080/api/v1/users
-```
-
-### Get user by ID:
-```bash
-curl http://localhost:8080/api/v1/users/{user_id}
-```
-
-### Update user:
-```bash
-curl -X PUT http://localhost:8080/api/v1/users/{user_id} \
-  -H "Content-Type: application/json" \
-  -d '{"name":"Jane Doe","age":25}'
-```
-
-### Delete user:
-```bash
-curl -X DELETE http://localhost:8080/api/v1/users/{user_id}
 ```
 
 ## Project Structure
